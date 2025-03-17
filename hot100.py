@@ -115,3 +115,53 @@ class Solution:
             ptr = ptr.next
             slow = slow.next
         return ptr
+    
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        # 数组中的第K个最大元素
+        # def quick_select(nums,k):
+        #     pivot = random.choice(nums)
+        #     big,equal,small = [],[],[]
+        #     for num in nums:
+        #         if num<pivot:
+        #             small.append(num)
+        #         elif num>pivot:
+        #             big.append(num)
+        #         else:
+        #             equal.append(num)
+        #     if k<=len(big):
+        #         return quick_select(big,k)
+        #     if len(nums) - len(small)<k:
+        #         return quick_select(small,k-len(nums)+len(small))#从原始的第 k 小元素中减去 big 和 equal 部分的元素数量，得到相对于 small 部分的新索引。
+        #     return pivot
+        
+        # return quick_select(nums,k)
+
+
+        #维护大小为k的小根堆
+        min_heap = []
+        for num in nums:
+            heapq.heapqpush(min_heap,num)
+            if len(min_heap)>k:
+                headpq.heappop(min_heap)
+        return min_heap[0] if min_heap else None
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        # 搜索旋转排序数组
+        def check(i): #判断第i个数是否在target右边
+            x = nums[i]
+            if x>nums[-1]:
+                return x>=target and target > nums[-1]
+            return target> nums[-1] or target<=x
+        
+        left,right = -1,len(nums)-1
+        while left+1<right:
+            mid = (left+right)//2
+            if check(mid):
+                right = mid
+            else:
+                left = mid
+        return right if nums[right]==target else -1
+    # 时间复杂度：O(logn) 空间复杂度：O(1)
+        
